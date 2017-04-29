@@ -1,0 +1,23 @@
+框架的基本结构
+
+在聚合工程中添加tomcat插件
+
+基本的思路:
+1.创建一个MavenProject,名称为fire-parent,打包方式为pom,用来管理jar包的版本.
+2.创建一个MavenProject,名称为fire-common,打包方式为jar,用来保存项目中用到的通用的工具类以及通用的pojo.(继承父工程)
+3.创建一个MavenProject,名称为fire-manager,打包方式为pom,此工程为聚合工程(继承父工程)
+4.为fire-manager聚合工程添加module(模块)
+	|--fire-manager-pojo,打包方式为jar.(不需要添加依赖)
+	|--fire-manager-dao,打包方式为jar,放置逆向工程生成的mapper以及接口.(需要添加依赖，dao层相关jar包,以及依赖pojo)
+	|--fire-manager-service,打包方式为jar.(依赖dao层以及service层相关jar包)
+	|--fire-manager-web,打包方式为war.(依赖service层以及web层相关jar包)
+
+fire-parent(父工程管理jar包的版本)
+	|--fire-common(把通用的工具类打包)
+	|--fire-manager(继承父工程)
+		|--fire-manager-pojo(jar包)
+		|--fire-manager-dao(jar包)
+		|--fire-manager-service(jar包)
+		|--fire-manager-web(war包)
+
+注意：利用maven的tomcat插件运行时首先要将fire-common工程,fire-parent工程打成jar安装到本地仓库
